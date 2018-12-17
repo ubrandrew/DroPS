@@ -1,7 +1,13 @@
 import numpy as np
 import cv2
 from PIL import ImageGrab
+import time
+from ctypes import windll
 
+user32 = windll.user32
+user32.SetProcessDPIAware()
+
+time.sleep(10)
 #takes screenshot
 img = ImageGrab.grab()
 
