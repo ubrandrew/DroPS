@@ -37,13 +37,18 @@ gray_copy = cv2.cvtColor(gray_copy,cv2.COLOR_GRAY2RGB) # Convert grayscale image
 for cnt in contours:
     if cv2.contourArea(cnt) < 150:
         contours.remove(cnt)
+    else:
+        rect = cv2.minAreaRect(cnt)
+        box = cv2.boxPoints(rect)
+        box = np.int0(box)
+        cv2.drawContours(gray_copy, [box], -1, (0,255,0), 1)
 
-print(len(contours))
+        print(box.shape)
 
+#cv2.drawContours(gray_copy, contours, -1, (0,255,0), 1) # Draw contour lines on grap_copy
 
+# Fit rotated rectanlges around contours
 
-
-cv2.drawContours(gray_copy, contours, -1, (0,255,0), 1) # Draw contour lines on grap_copy
 
 
 cv2.imshow('Result', gray_copy)
