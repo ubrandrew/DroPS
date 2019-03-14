@@ -13,13 +13,24 @@ def pol_to_cart(pol):
 # 1. Calculate centroid of contour
 # 2. Find line splitting rectangle in half (bisect shorter side)
 # 3. If centroid is on one side, direction is positive. If centroid is on the other, direction is negative.
-def process_moments(moments, contours):
+def process_moments(moments, contours, img):
+    # for mmt in moments:
+        #map index of moments to index of contours
 
+
+    for mmt in moments:
+        cX = int(mmt["m10"] / mmt["m00"])
+        cY = int(mmt["m01"] / mmt["m00"])
+        cv2.circle(img, (cX, cY), 2, (0, 0, 255), -1)
+
+    cv2.imshow('Result', img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
     return 
 
 user32 = windll.user32
 user32.SetProcessDPIAware()
-img = cv2.imread('arrows_rotated.PNG')
+img = cv2.imread('arrows.PNG')
 hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
 
@@ -58,7 +69,7 @@ for cnt in contours:
 print(len(contours))
 print(len(moments))
 
-process_moments(moments)
+process_moments(moments, contours, gray_copy)
 
        
 
@@ -68,6 +79,6 @@ process_moments(moments)
 
 
 
-cv2.imshow('Result', gray_copy)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+# cv2.imshow('Result', gray_copy)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
