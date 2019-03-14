@@ -9,9 +9,17 @@ def pol_to_cart(pol):
     y = pol[0] * math.sin(math.degrees(pol[1]))
     return (x,y)
 
+# 0. match contour with moment
+# 1. Calculate centroid of contour
+# 2. Find line splitting rectangle in half (bisect shorter side)
+# 3. If centroid is on one side, direction is positive. If centroid is on the other, direction is negative.
+def process_moments(moments, contours):
+
+    return 
+
 user32 = windll.user32
 user32.SetProcessDPIAware()
-img = cv2.imread('arrows.PNG')
+img = cv2.imread('arrows_rotated.PNG')
 hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
 
@@ -33,17 +41,26 @@ im2, contours, hierarchy = cv2.findContours(gray,cv2.RETR_TREE,cv2.CHAIN_APPROX_
 print(len(contours))
 gray_copy = cv2.cvtColor(gray_copy,cv2.COLOR_GRAY2RGB) # Convert grayscale image to RGB to allow colored contour lines
 
-# Remove contours that are too small
+# Contour Processing
+moments = []
+
 for cnt in contours:
-    if cv2.contourArea(cnt) < 150:
+    if cv2.contourArea(cnt) < 150: # Use symbolic constant
         contours.remove(cnt)
     else:
         rect = cv2.minAreaRect(cnt)
+        print(f"Rect: {rect}")
         box = cv2.boxPoints(rect)
         box = np.int0(box)
         cv2.drawContours(gray_copy, [box], -1, (0,255,0), 1)
+        moments.append(cv2.moments(cnt))
 
-        print(box.shape)
+print(len(contours))
+print(len(moments))
+
+process_moments(moments)
+
+       
 
 #cv2.drawContours(gray_copy, contours, -1, (0,255,0), 1) # Draw contour lines on grap_copy
 
