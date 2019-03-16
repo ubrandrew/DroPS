@@ -15,12 +15,15 @@ def pol_to_cart(pol):
 # 3. If centroid is on one side, direction is positive. If centroid is on the other, direction is negative.
 def process_moments(moments, contours, img):
     # for mmt in moments:
+    #     for cnt in contours:
+             
         #map index of moments to index of contours
 
 
     for mmt in moments:
         cX = int(mmt["m10"] / mmt["m00"])
         cY = int(mmt["m01"] / mmt["m00"])
+       
         cv2.circle(img, (cX, cY), 2, (0, 0, 255), -1)
 
     cv2.imshow('Result', img)
@@ -64,6 +67,7 @@ for cnt in contours:
         box = cv2.boxPoints(rect)
         box = np.int0(box)
         cv2.drawContours(gray_copy, [box], -1, (0,255,0), 1)
+        print(box)
         moments.append(cv2.moments(cnt))
 
 print(len(contours))
